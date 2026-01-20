@@ -29,5 +29,52 @@
   <p>
     This project is created for educational and awareness purposes.
   </p>
+  <hr>
+
+<h2>Ask the Cybersecurity AI Chatbot</h2>
+
+<input
+  type="text"
+  id="userInput"
+  placeholder="Type your cybersecurity question here..."
+  style="width: 60%; padding: 10px;"
+/>
+
+<button onclick="sendMessage()" style="padding: 10px;">
+  Ask
+</button>
+
+<p id="botReply" style="margin-top: 15px; font-weight: bold;"></p>
+
+<script>
+async function sendMessage() {
+  const userText = document.getElementById("userInput").value;
+
+  if (!userText) {
+    alert("Please type a question");
+    return;
+  }
+
+  document.getElementById("botReply").innerText = "Thinking...";
+
+  try {
+    const response = await fetch("https://YOUR-BACKEND-URL/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: userText })
+    });
+
+    const data = await response.json();
+    document.getElementById("botReply").innerText = data.reply;
+
+  } catch (error) {
+    document.getElementById("botReply").innerText =
+      "Chatbot is currently unavailable.";
+  }
+}
+</script>
+
 </body>
 </html>
